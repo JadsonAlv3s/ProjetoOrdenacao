@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickSort & SmoothSort — Análise Avançada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-brand">
+            <span class="nav-icon">⚡</span>
+            <span>Algoritmos de Ordenação</span>
+        </div>
+        <div class="nav-links">
+            <a href="#intro" class="nav-link">Intro</a>
+            <a href="#quick-history" class="nav-link">QuickSort</a>
+            <a href="#smooth-history" class="nav-link">SmoothSort</a>
+            <a href="#comparativo" class="nav-link">Comparativo</a>
+            <a href="#benchmark" class="nav-link">Benchmark</a>
+        </div>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div id="progressFill" class="progress-fill"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="cover-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+        <div class="hero-content">
+            <span class="cover-tag">Análise Avançada</span>
+            <h1 class="cover-title">Algoritmos de<br><span class="gradient-text">Ordenação</span></h1>
+            <p class="cover-subtitle">QuickSort & SmoothSort — Análise comparativa com visualização interativa</p>
+            <div class="cover-meta">
+                <span class="meta-item">📊 Complexidade</span>
+                <span class="meta-item">⚡ Performance</span>
+                <span class="meta-item">🎯 Visualização</span>
+            </div>
+            <a href="#intro" class="scroll-cta">↓ Explorar</a>
+        </div>
+    </section>
+
+    <!-- Introdução -->
+    <section class="section" id="intro">
+        <div class="container two-col">
+            <div class="col-left fade-in">
+                <span class="section-tag">Introdução</span>
+                <h2>O que é <span class="gradient-text">Ordenação?</span></h2>
+                <p class="description">Ordenação é o processo de reorganizar elementos de uma coleção em uma sequência lógica — crescente ou decrescente — otimizando operações subsequentes.</p>
+                <ul class="feature-list">
+                    <li><span class="list-icon">🔍</span> Viabiliza busca binária eficiente</li>
+                    <li><span class="list-icon">📈</span> Otimiza algoritmos dependentes</li>
+                    <li><span class="list-icon">🗂️</span> Organiza dados para visualização</li>
+                    <li><span class="list-icon">⚙️</span> Fundamental em bancos de dados</li>
+                </ul>
+            </div>
+            <div class="col-right fade-in">
+                <div class="info-card">
+                    <div class="card-header">
+                        <span class="card-icon">💡</span>
+                        <span>Por que esses dois?</span>
+                    </div>
+                    <p>O <strong>QuickSort</strong> é o algoritmo mais usado na prática por sua eficiência média. O <strong>SmoothSort</strong> é uma variante elegante do HeapSort que se adapta a dados parcialmente ordenados, atingindo O(n) no melhor caso.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">O(n log n)</span>
+                        <span class="stat-label">Caso médio</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">O(1)</span>
+                        <span class="stat-label">Espaço (SmoothSort)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QuickSort - História -->
+    <section class="section section-dark" id="quick-history">
+        <div class="container two-col">
+            <div class="col-left fade-in">
+                <span class="section-tag quick-tag">História</span>
+                <h2>A origem do<br><span class="gradient-text-quick">QuickSort</span></h2>
+                <p class="description">O QuickSort foi desenvolvido em <strong>1959</strong> pelo cientista da computação britânico <strong>Tony Hoare</strong>, enquanto trabalhava em um projeto de tradução automática na Universidade de Moscou.</p>
+                <p class="description">Hoare precisava ordenar palavras para um dicionário russo-inglês e, ao buscar uma solução eficiente, concebeu a ideia de particionar os dados em torno de um pivô. O algoritmo foi publicado formalmente em 1961.</p>
+                <p class="description">Desde então, tornou-se o algoritmo de ordenação mais utilizado na prática, sendo a base da função <code>sort()</code> em linguagens como C, C++ e Java.</p>
+            </div>
+            <div class="col-right fade-in">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">1959</span>
+                        <div class="timeline-content">
+                            <h4>Concepção</h4>
+                            <p>Tony Hoare desenvolve o algoritmo durante estágio na Universidade de Moscou, trabalhando com tradução automática.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1961</span>
+                        <div class="timeline-content">
+                            <h4>Publicação</h4>
+                            <p>O artigo "Algorithm 64: Quicksort" é publicado na Communications of the ACM, formalizando o algoritmo.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1962</span>
+                        <div class="timeline-content">
+                            <h4>Análise formal</h4>
+                            <p>Hoare publica "Quicksort" no Computer Journal com análise completa de complexidade e provas de correção.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1970+</span>
+                        <div class="timeline-content">
+                            <h4>Otimizações</h4>
+                            <p>Sedgewick, Bentley e outros propõem melhorias: mediana de três, Introsort, e versões híbridas usadas até hoje.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-header">
+                        <span class="card-icon">🏆</span>
+                        <span>Legado</span>
+                    </div>
+                    <p>Tony Hoare recebeu o <strong>Prêmio Turing</strong> em 1980 por suas contribuições à ciência da computação, incluindo o QuickSort e a lógica de Hoare para verificação de programas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QuickSort - Conceito -->
+    <section class="section" id="quicksort">
+        <div class="container two-col">
+            <div class="col-left fade-in">
+                <span class="section-tag quick-tag">QuickSort</span>
+                <h2>Como funciona o<br><span class="gradient-text-quick">QuickSort?</span></h2>
+                <p class="description">Utiliza a estratégia <strong>dividir para conquistar</strong>: escolhe um pivô, particiona o array em elementos menores e maiores que o pivô, e aplica recursivamente o mesmo processo.</p>
+                <div class="steps-list">
+                    <div class="step"><span class="step-num">1</span> Escolhe um elemento como pivô</div>
+                    <div class="step"><span class="step-num">2</span> Particiona: menores à esquerda, maiores à direita</div>
+                    <div class="step"><span class="step-num">3</span> Aplica recursivamente nas sub-partições</div>
+                </div>
+                <div class="complexity-table">
+                    <div class="complexity-row">
+                        <span class="complexity-label">Melhor caso:</span>
+                        <span class="complexity-value good">O(n log n)</span>
+                    </div>
+                    <div class="complexity-row">
+                        <span class="complexity-label">Caso médio:</span>
+                        <span class="complexity-value good">O(n log n)</span>
+                    </div>
+                    <div class="complexity-row">
+                        <span class="complexity-label">Pior caso:</span>
+                        <span class="complexity-value bad">O(n²)</span>
+                    </div>
+                    <div class="complexity-row">
+                        <span class="complexity-label">Espaço:</span>
+                        <span class="complexity-value medium">O(log n)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-right fade-in">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                        <span class="code-title">quicksort.py</span>
+                    </div>
+                    <pre><code><span class="keyword">def</span> <span class="func">quicksort</span>(arr, low, high):
+    <span class="keyword">if</span> low &lt; high:
+        pi = <span class="func">partition</span>(arr, low, high)
+        <span class="func">quicksort</span>(arr, low, pi - 1)
+        <span class="func">quicksort</span>(arr, pi + 1, high)
+
+<span class="keyword">def</span> <span class="func">partition</span>(arr, low, high):
+    pivot = arr[high]  <span class="comment"># pivô</span>
+    i = low - 1
+    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="func">range</span>(low, high):
+        <span class="keyword">if</span> arr[j] &lt;= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i+1], arr[high] = arr[high], arr[i+1]
+    <span class="keyword">return</span> i + 1</code></pre>
+                </div>
+                <div class="info-card small-card">
+                    <div class="card-header">
+                        <span class="card-icon">⚠️</span>
+                        <span>Atenção</span>
+                    </div>
+                    <p>O pior caso O(n²) ocorre quando o pivô é sempre o menor ou maior elemento. Soluções: pivô aleatório ou mediana de três.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QuickSort - Animação -->
+    <section class="section section-dark" id="quick-demo">
+        <div class="container center-content fade-in">
+            <span class="section-tag quick-tag">QuickSort</span>
+            <h2>Visualização <span class="gradient-text-quick">Passo a Passo</span></h2>
+            <p class="description center-text">Acompanhe cada etapa do algoritmo com explicações em linguagem simples</p>
+
+            <!-- Explicação didática antes da animação -->
+            <div class="didactic-box">
+                <div class="didactic-header">
+                    <span class="didactic-icon">📖</span>
+                    <span>Como ler esta animação</span>
+                </div>
+                <div class="didactic-steps">
+                    <div class="didactic-step">
+                        <span class="legend-color pivot-color"></span>
+                        <span><strong>Barra roxa</strong> = Pivô (o elemento escolhido como referência para dividir o grupo)</span>
+                    </div>
+                    <div class="didactic-step">
+                        <span class="legend-color comparing-color"></span>
+                        <span><strong>Barra amarela</strong> = Elemento sendo comparado com o pivô neste momento</span>
+                    </div>
+                    <div class="didactic-step">
+                        <span class="legend-color sorted-color"></span>
+                        <span><strong>Barra verde</strong> = Elemento já na posição correta (não muda mais)</span>
+                    </div>
+                </div>
+                <div class="didactic-note">
+                    <strong>Analogia:</strong> Imagine organizar cartas de baralho. Você escolhe uma carta (pivô), coloca todas as menores à esquerda e as maiores à direita. Depois repete o processo em cada grupo menor, até tudo estar em ordem.
+                </div>
+            </div>
+
+            <div class="animation-container">
+                <div class="animation-controls">
+                    <button id="quickStart" class="anim-btn primary">▶ Iniciar Automático</button>
+                    <button id="quickStep" class="anim-btn primary-outline">⏭ Passo a Passo</button>
+                    <button id="quickReset" class="anim-btn secondary">↺ Novo Array</button>
+                    <div class="speed-control">
+                        <label>Velocidade:</label>
+                        <input type="range" id="quickSpeed" min="1" max="5" value="2">
+                        <span class="speed-label" id="quickSpeedLabel">Lento</span>
+                    </div>
+                </div>
+                <div id="quickArray" class="array-container"></div>
+                <div class="legend">
+                    <span class="legend-item"><span class="legend-color pivot-color"></span> Pivô</span>
+                    <span class="legend-item"><span class="legend-color comparing-color"></span> Comparando</span>
+                    <span class="legend-item"><span class="legend-color sorted-color"></span> Posição final</span>
+                </div>
+
+                <!-- Painel de explicação em tempo real -->
+                <div id="quickExplain" class="explain-panel">
+                    <div class="explain-header">💬 O que está acontecendo:</div>
+                    <p id="quickExplainText">Clique em "Iniciar" para ver o algoritmo funcionando, ou use "Passo a Passo" para controlar manualmente.</p>
+                </div>
+
+                <div id="quickStatus" class="status-bar">
+                    <span id="quickComparisons">Comparações: 0</span>
+                    <span id="quickSwaps">Trocas: 0</span>
+                    <span id="quickPhase">Fase: Aguardando</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SmoothSort - História -->
+    <section class="section section-dark" id="smooth-history">
+        <div class="container two-col">
+            <div class="col-left fade-in">
+                <span class="section-tag smooth-tag">História</span>
+                <h2>A origem do<br><span class="gradient-text-smooth">SmoothSort</span></h2>
+                <p class="description">O SmoothSort foi inventado em <strong>1981</strong> pelo lendário cientista da computação holandês <strong>Edsger W. Dijkstra</strong>, um dos mais influentes pensadores da área.</p>
+                <p class="description">Dijkstra buscava criar um algoritmo que combinasse as garantias do HeapSort (pior caso O(n log n)) com a capacidade de se adaptar a dados já parcialmente ordenados — algo que o HeapSort tradicional não faz.</p>
+                <p class="description">A solução foi usar os <strong>números de Leonardo</strong> como base para uma estrutura de heap implícita, resultando em um algoritmo que "suaviza" seu comportamento conforme a desordem dos dados — daí o nome <em>Smooth</em>Sort.</p>
+            </div>
+            <div class="col-right fade-in">
+                <div class="timeline smooth-tl">
+                    <div class="timeline-item smooth-timeline">
+                        <span class="timeline-year">1981</span>
+                        <div class="timeline-content">
+                            <h4>Publicação original</h4>
+                            <p>Dijkstra publica o manuscrito EWD796 "Smoothsort, an alternative for sorting in situ", descrevendo o algoritmo em detalhes.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item smooth-timeline">
+                        <span class="timeline-year">1981</span>
+                        <div class="timeline-content">
+                            <h4>Números de Leonardo</h4>
+                            <p>A escolha dos números de Leonardo (em vez de potências de 2) permite que heaps adjacentes se combinem de forma natural.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item smooth-timeline">
+                        <span class="timeline-year">1984</span>
+                        <div class="timeline-content">
+                            <h4>Análise de adaptabilidade</h4>
+                            <p>Estudos confirmam que o SmoothSort atinge O(n) em sequências já ordenadas, validando a proposta de Dijkstra.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item smooth-timeline">
+                        <span class="timeline-year">2000+</span>
+                        <div class="timeline-content">
+                            <h4>Redescoberta</h4>
+                            <p>Implementações modernas em C++, Rust e Java surgem, e o algoritmo ganha atenção em competições e pesquisas sobre ordenação adaptativa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-header">
+                        <span class="card-icon">🧠</span>
+                        <span>Sobre Dijkstra</span>
+                    </div>
+                    <p>Edsger Dijkstra (1930–2002) é conhecido pelo algoritmo de caminho mínimo, pela programação estruturada e pelo famoso artigo "Go To Statement Considered Harmful". Recebeu o <strong>Prêmio Turing</strong> em 1972.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SmoothSort - Conceito -->
+    <section class="section" id="smoothsort">
+        <div class="container two-col">
+            <div class="col-left fade-in">
+                <span class="section-tag smooth-tag">SmoothSort</span>
+                <h2>Como funciona o<br><span class="gradient-text-smooth">SmoothSort?</span></h2>
+                <p class="description">Criado por <strong>Edsger Dijkstra</strong> (1981), é uma variante adaptativa do HeapSort. Usa uma floresta de <em>heaps de Leonardo</em> para explorar a ordem pré-existente nos dados.</p>
+                <div class="steps-list">
+                    <div class="step"><span class="step-num">1</span> Constrói uma floresta de heaps de Leonardo</div>
+                    <div class="step"><span class="step-num">2</span> Mantém a propriedade de heap entre as raízes</div>
+                    <div class="step"><span class="step-num">3</span> Extrai o máximo e reconstrói a estrutura</div>
+                </div>
+                <div class="complexity-table">
+                    <div class="complexity-row">
+                        <span class="complexity-label">Melhor caso:</span>
+                        <span class="complexity-value good">O(n)</span>
+                    </div>
+                    <div class="complexity-row">
+                        <span class="complexity-label">Caso médio:</span>
+                        <span class="complexity-value good">O(n log n)</span>
+                    </div>
+                    <div class="complexity-row">
+                        <span class="complexity-label">Pior caso:</span>
+                        <span class="complexity-value medium">O(n log n)</span>
+                    </div>
+                    <div class="complexity-row">
+                        <span class="complexity-label">Espaço:</span>
+                        <span class="complexity-value good">O(1)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-right fade-in">
+                <div class="info-card">
+                    <div class="card-header">
+                        <span class="card-icon">🔢</span>
+                        <span>Números de Leonardo</span>
+                    </div>
+                    <p>Sequência similar a Fibonacci:<br><strong>1, 1, 3, 5, 9, 15, 25, 41, 67...</strong><br><br>L(n) = L(n-1) + L(n-2) + 1<br><br>Cada heap na floresta tem tamanho igual a um número de Leonardo.</p>
+                </div>
+                <div class="info-card small-card">
+                    <div class="card-header">
+                        <span class="card-icon">✨</span>
+                        <span>Vantagem adaptativa</span>
+                    </div>
+                    <p>Se os dados já estão parcialmente ordenados, o SmoothSort detecta isso e reduz o trabalho, aproximando-se de O(n).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SmoothSort - Animação -->
+    <section class="section section-dark" id="smooth-demo">
+        <div class="container center-content fade-in">
+            <span class="section-tag smooth-tag">SmoothSort</span>
+            <h2>Visualização <span class="gradient-text-smooth">Passo a Passo</span></h2>
+            <p class="description center-text">Acompanhe como o SmoothSort organiza os dados usando a estrutura de heap</p>
+
+            <!-- Explicação didática antes da animação -->
+            <div class="didactic-box smooth-didactic">
+                <div class="didactic-header">
+                    <span class="didactic-icon">📖</span>
+                    <span>Como ler esta animação</span>
+                </div>
+                <div class="didactic-steps">
+                    <div class="didactic-step">
+                        <span class="legend-color heap-root-color"></span>
+                        <span><strong>Barra ciano</strong> = Raiz do heap (o maior elemento do grupo atual)</span>
+                    </div>
+                    <div class="didactic-step">
+                        <span class="legend-color comparing-color"></span>
+                        <span><strong>Barra amarela</strong> = Elemento sendo comparado para manter a ordem do heap</span>
+                    </div>
+                    <div class="didactic-step">
+                        <span class="legend-color sorted-color"></span>
+                        <span><strong>Barra verde</strong> = Elemento já na posição final correta</span>
+                    </div>
+                    <div class="didactic-step">
+                        <span class="legend-color" style="background: var(--red);"></span>
+                        <span><strong>Barra vermelha</strong> = Troca acontecendo neste momento</span>
+                    </div>
+                </div>
+                <div class="didactic-note">
+                    <strong>Analogia:</strong> Imagine uma fila de pessoas organizadas por altura. O SmoothSort primeiro agrupa as pessoas em "times" (heaps), onde o mais alto fica na frente. Depois, vai retirando o mais alto de cada time e colocando no final da fila ordenada.
+                </div>
+            </div>
+
+            <div class="animation-container">
+                <div class="animation-controls">
+                    <button id="smoothStart" class="anim-btn primary-smooth">▶ Iniciar Automático</button>
+                    <button id="smoothStep" class="anim-btn smooth-outline">⏭ Passo a Passo</button>
+                    <button id="smoothReset" class="anim-btn secondary">↺ Novo Array</button>
+                    <div class="speed-control">
+                        <label>Velocidade:</label>
+                        <input type="range" id="smoothSpeed" min="1" max="5" value="2">
+                        <span class="speed-label" id="smoothSpeedLabel">Lento</span>
+                    </div>
+                </div>
+                <div id="smoothArray" class="array-container"></div>
+                <div class="legend">
+                    <span class="legend-item"><span class="legend-color heap-root-color"></span> Raiz do Heap</span>
+                    <span class="legend-item"><span class="legend-color comparing-color"></span> Comparando</span>
+                    <span class="legend-item"><span class="legend-color sorted-color"></span> Posição final</span>
+                </div>
+
+                <!-- Painel de explicação em tempo real -->
+                <div id="smoothExplain" class="explain-panel smooth-explain">
+                    <div class="explain-header">💬 O que está acontecendo:</div>
+                    <p id="smoothExplainText">Clique em "Iniciar" para ver o algoritmo funcionando, ou use "Passo a Passo" para controlar manualmente.</p>
+                </div>
+
+                <div id="smoothStatus" class="status-bar">
+                    <span id="smoothComparisons">Comparações: 0</span>
+                    <span id="smoothSwaps">Trocas: 0</span>
+                    <span id="smoothPhase">Fase: Aguardando</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparação -->
+    <section class="section" id="comparativo">
+        <div class="container center-content fade-in">
+            <span class="section-tag">Comparativo</span>
+            <h2>QuickSort <span class="vs">vs</span> SmoothSort</h2>
+            <div class="comparison-table">
+                <div class="comparison-header">
+                    <span>Critério</span>
+                    <span class="quick-color">QuickSort</span>
+                    <span class="smooth-color">SmoothSort</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Melhor caso</span>
+                    <span class="good">O(n log n)</span>
+                    <span class="good highlight">O(n) ✓</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Pior caso</span>
+                    <span class="bad">O(n²)</span>
+                    <span class="good highlight">O(n log n) ✓</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Caso médio</span>
+                    <span class="good highlight">O(n log n) ✓</span>
+                    <span class="good">O(n log n)</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Espaço</span>
+                    <span class="medium">O(log n)</span>
+                    <span class="good highlight">O(1) ✓</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Adaptativo</span>
+                    <span class="bad">Não</span>
+                    <span class="good highlight">Sim ✓</span>
+                </div>
+                <div class="comparison-row">
+                    <span>In-place</span>
+                    <span class="good">Sim ✓</span>
+                    <span class="good">Sim ✓</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Estabilidade</span>
+                    <span class="bad">Instável</span>
+                    <span class="bad">Instável</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Cache-friendly</span>
+                    <span class="good highlight">Sim ✓</span>
+                    <span class="medium">Parcial</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Complexidade de impl.</span>
+                    <span class="good highlight">Simples ✓</span>
+                    <span class="bad">Complexa</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benchmark -->
+    <section class="section section-dark" id="benchmark">
+        <div class="container center-content fade-in">
+            <span class="section-tag">Performance</span>
+            <h2>Benchmark <span class="gradient-text">Visual</span></h2>
+            <p class="description center-text">Comparação de desempenho em diferentes cenários de entrada</p>
+            <div class="benchmark-container">
+                <div class="benchmark-card">
+                    <h3>Array Aleatório (n = 10.000)</h3>
+                    <div class="bar-chart">
+                        <div class="bar-row">
+                            <span class="bar-label">QuickSort</span>
+                            <div class="bar-track"><div class="bar-fill quick-fill" data-width="55"><span>~0.8ms</span></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">SmoothSort</span>
+                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="75"><span>~1.1ms</span></div></div>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">QuickSort é ~30% mais rápido em dados aleatórios devido à melhor localidade de cache</p>
+                </div>
+                <div class="benchmark-card">
+                    <h3>Array Quase Ordenado (n = 10.000)</h3>
+                    <div class="bar-chart">
+                        <div class="bar-row">
+                            <span class="bar-label">QuickSort</span>
+                            <div class="bar-track"><div class="bar-fill quick-fill" data-width="60"><span>~0.7ms</span></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">SmoothSort</span>
+                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="25"><span>~0.3ms</span></div></div>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">SmoothSort brilha aqui — sua natureza adaptativa reduz o trabalho para quase O(n)</p>
+                </div>
+                <div class="benchmark-card">
+                    <h3>Array Inversamente Ordenado (n = 10.000)</h3>
+                    <div class="bar-chart">
+                        <div class="bar-row">
+                            <span class="bar-label">QuickSort</span>
+                            <div class="bar-track"><div class="bar-fill quick-fill worst" data-width="100"><span>~50ms (n²)</span></div></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">SmoothSort</span>
+                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="75"><span>~1.1ms</span></div></div>
+                        </div>
+                    </div>
+                    <p class="benchmark-note">Pior caso do QuickSort (pivô fixo no último elemento). SmoothSort mantém O(n log n)</p>
+                </div>
+            </div>
+            <p class="benchmark-disclaimer">* Barras representam tempo relativo de execução — quanto maior, mais lento. Valores aproximados para n = 10.000 elementos.</p>
+        </div>
+    </section>
+
+    <!-- Conclusão -->
+    <section class="section" id="conclusao">
+        <div class="container center-content fade-in">
+            <span class="cover-tag">Conclusão</span>
+            <h2 class="cover-title">Quando usar<br><span class="gradient-text">cada um?</span></h2>
+            <div class="conclusion-cards">
+                <div class="conclusion-card quick-card">
+                    <h3>⚡ QuickSort</h3>
+                    <ul>
+                        <li>Dados completamente aleatórios</li>
+                        <li>Quando performance média importa mais</li>
+                        <li>Implementação simples é prioridade</li>
+                        <li>Uso geral (padrão em muitas linguagens)</li>
+                    </ul>
+                </div>
+                <div class="conclusion-card smooth-card">
+                    <h3>🌊 SmoothSort</h3>
+                    <ul>
+                        <li>Dados parcialmente ordenados</li>
+                        <li>Garantia de O(n log n) é necessária</li>
+                        <li>Memória extra não é aceitável</li>
+                        <li>Sistemas embarcados / tempo real</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="final-note">O QuickSort domina na prática pela simplicidade e cache-friendliness. O SmoothSort é a escolha teórica superior quando adaptabilidade e garantias de pior caso são essenciais.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Análise Avançada de Algoritmos de Ordenação — QuickSort & SmoothSort</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
