@@ -47,8 +47,8 @@ barFills.forEach(bar => barObserver.observe(bar));
 // ===== SPEED LABELS =====
 const speedLabels = ['Muito lento', 'Lento', 'Normal', 'Rápido', 'Muito rápido'];
 
-document.getElementById('quickSpeed').addEventListener('input', (e) => {
-    document.getElementById('quickSpeedLabel').textContent = speedLabels[e.target.value - 1];
+document.getElementById('bitonicSpeed').addEventListener('input', (e) => {
+    document.getElementById('bitonicSpeedLabel').textContent = speedLabels[e.target.value - 1];
 });
 document.getElementById('smoothSpeed').addEventListener('input', (e) => {
     document.getElementById('smoothSpeedLabel').textContent = speedLabels[e.target.value - 1];
@@ -63,6 +63,14 @@ function getSpeed(sliderId) {
     const slider = document.getElementById(sliderId);
     const speeds = [1200, 700, 400, 200, 100];
     return speeds[slider.value - 1];
+}
+
+function generateArrayPow2(size, max) {
+    const arr = [];
+    for (let i = 0; i < size; i++) {
+        arr.push(Math.floor(Math.random() * max) + 5);
+    }
+    return arr;
 }
 
 function generateArray(size, max) {
@@ -104,195 +112,183 @@ function updateCounter(id, text) {
     if (el) el.textContent = text;
 }
 
-// ===== QUICKSORT ANIMATION (DIDACTIC) =====
-let quickArr = [];
-let quickRunning = false;
-let quickStepMode = false;
-let quickStepResolve = null;
-let quickComparisons = 0;
-let quickSwaps = 0;
-let quickSortedIndices = new Set();
-const QUICK_SIZE = 10;
-const QUICK_MAX = 70;
+// ===== BITONIC SORT ANIMATION (DIDACTIC) =====
+let bitonicArr = [];
+let bitonicRunning = false;
+let bitonicStepMode = false;
+let bitonicStepResolve = null;
+let bitonicComparisons = 0;
+let bitonicSwaps = 0;
+const BITONIC_SIZE = 8; // Must be power of 2
+const BITONIC_MAX = 70;
 
-function initQuickSort() {
-    quickArr = generateArray(QUICK_SIZE, QUICK_MAX);
-    renderArray('quickArray', quickArr, QUICK_MAX);
-    quickRunning = false;
-    quickStepMode = false;
-    quickComparisons = 0;
-    quickSwaps = 0;
-    quickSortedIndices = new Set();
-    updateCounter('quickComparisons', 'Comparações: 0');
-    updateCounter('quickSwaps', 'Trocas: 0');
-    updateCounter('quickPhase', 'Fase: Aguardando');
-    explain('quickExplainText', 'Clique em "Iniciar" para ver o algoritmo funcionando, ou use "Passo a Passo" para controlar manualmente.');
+function initBitonicSort() {
+    bitonicArr = generateArrayPow2(BITONIC_SIZE, BITONIC_MAX);
+    renderArray('bitonicArray', bitonicArr, BITONIC_MAX);
+    bitonicRunning = false;
+    bitonicStepMode = false;
+    bitonicComparisons = 0;
+    bitonicSwaps = 0;
+    updateCounter('bitonicComparisons', 'Comparações: 0');
+    updateCounter('bitonicSwaps', 'Trocas: 0');
+    updateCounter('bitonicPhase', 'Fase: Aguardando');
+    explain('bitonicExplainText', 'Clique em "Iniciar" para ver o algoritmo funcionando, ou use "Passo a Passo" para controlar manualmente.');
 }
 
-function markQuickSorted(containerId) {
-    quickSortedIndices.forEach(idx => setBarClass(containerId, idx, 'sorted'));
-}
-
-function quickWait() {
-    if (quickStepMode) {
-        return new Promise(resolve => { quickStepResolve = resolve; });
+function bitonicWait() {
+    if (bitonicStepMode) {
+        return new Promise(resolve => { bitonicStepResolve = resolve; });
     }
-    return sleep(getSpeed('quickSpeed'));
+    return sleep(getSpeed('bitonicSpeed'));
 }
 
-async function animateQuickSort(arr, low, high, containerId, depth) {
-    if (!quickRunning) return;
-    if (low < high) {
-        updateCounter('quickPhase', `Fase: Particionando (nível ${depth})`);
-        explain('quickExplainText',
-            `Vamos dividir o grupo das posições ${low} até ${high}. Primeiro, escolhemos o último elemento como pivô.`);
-        await quickWait();
+async function animateBitonicSort(arr, containerId) {
+    const n = arr.length;
 
-        const pi = await animatePartition(arr, low, high, containerId);
-        if (!quickRunning) return;
+    explain('bitonicExplainText',
+        `O array tem ${n} elementos (potência de 2). Vamos criar sequências bitônicas cada vez maiores e mesclá-las até ordenar tudo.`);
+    updateCounter('bitonicPhase', 'Fase: Construindo sequências bitônicas');
+    await bitonicWait();
 
-        explain('quickExplainText',
-            `O pivô ${arr[pi]} está na posição ${pi}. Agora tudo à esquerda é menor e tudo à direita é maior. Vamos repetir o processo em cada lado.`);
-        await quickWait();
+    // Bitonic Sort: build progressively larger bitonic sequences
+    for (let size = 2; size <= n; size *= 2) {
+        if (!bitonicRunning) return;
 
-        await animateQuickSort(arr, low, pi - 1, containerId, depth + 1);
-        if (!quickRunning) return;
-        await animateQuickSort(arr, pi + 1, high, containerId, depth + 1);
-    } else if (low >= 0 && low < arr.length) {
-        quickSortedIndices.add(low);
-        setBarClass(containerId, low, 'sorted');
-    }
-}
+        for (let startIdx = 0; startIdx < n; startIdx += size) {
+            if (!bitonicRunning) return;
+            // Determine direction: alternating asc/desc to form bitonic sequence
+            // In the final pass (size == n), everything is ascending
+            const ascending = ((startIdx / size) % 2 === 0);
+            const dirText = ascending ? 'crescente ↑' : 'decrescente ↓';
 
-async function animatePartition(arr, low, high, containerId) {
-    const pivot = arr[high];
-    setBarClass(containerId, high, 'pivot');
-    markQuickSorted(containerId);
-    explain('quickExplainText',
-        `Pivô escolhido: ${pivot} (última posição). Agora vamos percorrer os outros elementos. Se um elemento for MENOR ou IGUAL ao pivô, ele vai para o lado esquerdo.`);
-    await quickWait();
-
-    let i = low - 1;
-
-    for (let j = low; j < high; j++) {
-        if (!quickRunning) return low;
-
-        setBarClass(containerId, j, 'comparing');
-        quickComparisons++;
-        updateCounter('quickComparisons', `Comparações: ${quickComparisons}`);
-
-        if (arr[j] <= pivot) {
-            explain('quickExplainText',
-                `${arr[j]} ≤ ${pivot} (pivô)? SIM! Então movemos ${arr[j]} para o lado esquerdo (posição ${i + 1}).`);
-        } else {
-            explain('quickExplainText',
-                `${arr[j]} ≤ ${pivot} (pivô)? NÃO. O ${arr[j]} é maior, então fica onde está (lado direito).`);
-        }
-        await quickWait();
-
-        if (arr[j] <= pivot) {
-            i++;
-            if (i !== j) {
-                quickSwaps++;
-                updateCounter('quickSwaps', `Trocas: ${quickSwaps}`);
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-                renderArray(containerId, arr, QUICK_MAX);
-                setBarClass(containerId, high, 'pivot');
-                setBarClass(containerId, i, 'comparing');
-                markQuickSorted(containerId);
+            if (size < n) {
+                explain('bitonicExplainText',
+                    `Ordenando bloco [${startIdx}..${startIdx + size - 1}] em ordem ${dirText}. Blocos adjacentes com direções opostas formam sequência bitônica.`);
             } else {
-                setBarClass(containerId, j, 'default');
+                explain('bitonicExplainText',
+                    `Mesclagem final: ordenando todo o array [0..${n - 1}] em ordem crescente. A sequência bitônica se transforma em ordenada!`);
+                updateCounter('bitonicPhase', 'Fase: Mesclagem final');
             }
-        } else {
-            setBarClass(containerId, j, 'default');
+            await bitonicWait();
+
+            await bitonicMerge(arr, startIdx, size, ascending, containerId);
         }
-        await quickWait();
+
+        if (size < n) {
+            updateCounter('bitonicPhase', `Fase: Blocos de tamanho ${size} prontos`);
+        }
+    }
+}
+
+async function bitonicMerge(arr, low, cnt, ascending, containerId) {
+    if (cnt <= 1 || !bitonicRunning) return;
+
+    const mid = cnt / 2;
+
+    for (let i = low; i < low + mid; i++) {
+        if (!bitonicRunning) return;
+        const j = i + mid;
+
+        // Highlight the pair being compared
+        setBarClass(containerId, i, 'pivot');
+        setBarClass(containerId, j, 'pivot');
+        bitonicComparisons++;
+        updateCounter('bitonicComparisons', `Comparações: ${bitonicComparisons}`);
+
+        const shouldSwap = ascending ? (arr[i] > arr[j]) : (arr[i] < arr[j]);
+        const dirSymbol = ascending ? '>' : '<';
+
+        if (shouldSwap) {
+            explain('bitonicExplainText',
+                `Comparando posição ${i} (${arr[i]}) com posição ${j} (${arr[j]}): ${arr[i]} ${dirSymbol} ${arr[j]}? SIM → trocamos!`);
+            await bitonicWait();
+
+            setBarClass(containerId, i, 'comparing');
+            setBarClass(containerId, j, 'comparing');
+
+            bitonicSwaps++;
+            updateCounter('bitonicSwaps', `Trocas: ${bitonicSwaps}`);
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            renderArray(containerId, arr, BITONIC_MAX);
+            setBarClass(containerId, i, 'comparing');
+            setBarClass(containerId, j, 'comparing');
+            await bitonicWait();
+        } else {
+            explain('bitonicExplainText',
+                `Comparando posição ${i} (${arr[i]}) com posição ${j} (${arr[j]}): ${arr[i]} ${dirSymbol} ${arr[j]}? NÃO → já estão na ordem certa.`);
+            await bitonicWait();
+        }
+
+        setBarClass(containerId, i, 'default');
+        setBarClass(containerId, j, 'default');
     }
 
-    // Place pivot in correct position
-    i++;
-    if (i !== high) {
-        quickSwaps++;
-        updateCounter('quickSwaps', `Trocas: ${quickSwaps}`);
-        explain('quickExplainText',
-            `Agora colocamos o pivô ${pivot} na posição correta (${i}). Tudo à esquerda é menor, tudo à direita é maior!`);
-        [arr[i], arr[high]] = [arr[high], arr[i]];
-    } else {
-        explain('quickExplainText',
-            `O pivô ${pivot} já está na posição correta (${i})!`);
-    }
-    renderArray(containerId, arr, QUICK_MAX);
-    quickSortedIndices.add(i);
-    markQuickSorted(containerId);
-    await quickWait();
-
-    return i;
+    // Recursively merge halves
+    await bitonicMerge(arr, low, mid, ascending, containerId);
+    await bitonicMerge(arr, low + mid, mid, ascending, containerId);
 }
 
 // Auto mode
-document.getElementById('quickStart').addEventListener('click', async () => {
-    if (quickRunning) return;
-    quickRunning = true;
-    quickStepMode = false;
-    document.getElementById('quickStart').textContent = '⏸ Executando...';
-    document.getElementById('quickStart').disabled = true;
-    document.getElementById('quickStep').disabled = true;
+document.getElementById('bitonicStart').addEventListener('click', async () => {
+    if (bitonicRunning) return;
+    bitonicRunning = true;
+    bitonicStepMode = false;
+    document.getElementById('bitonicStart').textContent = '⏸ Executando...';
+    document.getElementById('bitonicStart').disabled = true;
+    document.getElementById('bitonicStep').disabled = true;
 
-    await animateQuickSort(quickArr, 0, quickArr.length - 1, 'quickArray', 1);
+    await animateBitonicSort(bitonicArr, 'bitonicArray');
 
-    if (quickRunning) {
-        for (let i = 0; i < quickArr.length; i++) setBarClass('quickArray', i, 'sorted');
-        updateCounter('quickPhase', 'Fase: Concluído ✓');
-        explain('quickExplainText',
-            `Pronto! O array está completamente ordenado. Foram necessárias ${quickComparisons} comparações e ${quickSwaps} trocas.`);
+    if (bitonicRunning) {
+        for (let i = 0; i < bitonicArr.length; i++) setBarClass('bitonicArray', i, 'sorted');
+        updateCounter('bitonicPhase', 'Fase: Concluído ✓');
+        explain('bitonicExplainText',
+            `Pronto! O array está ordenado. Foram ${bitonicComparisons} comparações e ${bitonicSwaps} trocas. Note como todas as comparações usam distância fixa — isso permite paralelismo total!`);
     }
-    document.getElementById('quickStart').textContent = '▶ Iniciar Automático';
-    document.getElementById('quickStart').disabled = false;
-    document.getElementById('quickStep').disabled = false;
-    quickRunning = false;
+    document.getElementById('bitonicStart').textContent = '▶ Iniciar Automático';
+    document.getElementById('bitonicStart').disabled = false;
+    document.getElementById('bitonicStep').disabled = false;
+    bitonicRunning = false;
 });
 
 // Step mode
-document.getElementById('quickStep').addEventListener('click', async () => {
-    if (!quickRunning) {
-        // Start in step mode
-        quickRunning = true;
-        quickStepMode = true;
-        document.getElementById('quickStart').disabled = true;
-        document.getElementById('quickStep').textContent = '⏭ Próximo Passo';
-        explain('quickExplainText', 'Modo passo a passo ativado. Clique "Próximo Passo" para avançar.');
+document.getElementById('bitonicStep').addEventListener('click', async () => {
+    if (!bitonicRunning) {
+        bitonicRunning = true;
+        bitonicStepMode = true;
+        document.getElementById('bitonicStart').disabled = true;
+        document.getElementById('bitonicStep').textContent = '⏭ Próximo Passo';
+        explain('bitonicExplainText', 'Modo passo a passo ativado. Clique "Próximo Passo" para avançar.');
 
-        await animateQuickSort(quickArr, 0, quickArr.length - 1, 'quickArray', 1);
+        await animateBitonicSort(bitonicArr, 'bitonicArray');
 
-        if (quickRunning) {
-            for (let i = 0; i < quickArr.length; i++) setBarClass('quickArray', i, 'sorted');
-            updateCounter('quickPhase', 'Fase: Concluído ✓');
-            explain('quickExplainText',
-                `Pronto! O array está ordenado. Total: ${quickComparisons} comparações e ${quickSwaps} trocas.`);
+        if (bitonicRunning) {
+            for (let i = 0; i < bitonicArr.length; i++) setBarClass('bitonicArray', i, 'sorted');
+            updateCounter('bitonicPhase', 'Fase: Concluído ✓');
+            explain('bitonicExplainText',
+                `Pronto! Array ordenado. Total: ${bitonicComparisons} comparações e ${bitonicSwaps} trocas.`);
         }
-        document.getElementById('quickStart').disabled = false;
-        document.getElementById('quickStep').textContent = '⏭ Passo a Passo';
-        quickRunning = false;
-    } else if (quickStepResolve) {
-        // Advance one step
-        const resolve = quickStepResolve;
-        quickStepResolve = null;
+        document.getElementById('bitonicStart').disabled = false;
+        document.getElementById('bitonicStep').textContent = '⏭ Passo a Passo';
+        bitonicRunning = false;
+    } else if (bitonicStepResolve) {
+        const resolve = bitonicStepResolve;
+        bitonicStepResolve = null;
         resolve();
     }
 });
 
-document.getElementById('quickReset').addEventListener('click', () => {
-    quickRunning = false;
-    if (quickStepResolve) { quickStepResolve(); quickStepResolve = null; }
-    document.getElementById('quickStart').textContent = '▶ Iniciar Automático';
-    document.getElementById('quickStart').disabled = false;
-    document.getElementById('quickStep').textContent = '⏭ Passo a Passo';
-    document.getElementById('quickStep').disabled = false;
-    quickSortedIndices = new Set();
-    initQuickSort();
+document.getElementById('bitonicReset').addEventListener('click', () => {
+    bitonicRunning = false;
+    if (bitonicStepResolve) { bitonicStepResolve(); bitonicStepResolve = null; }
+    document.getElementById('bitonicStart').textContent = '▶ Iniciar Automático';
+    document.getElementById('bitonicStart').disabled = false;
+    document.getElementById('bitonicStep').textContent = '⏭ Passo a Passo';
+    document.getElementById('bitonicStep').disabled = false;
+    initBitonicSort();
 });
 
-initQuickSort();
+initBitonicSort();
 
 // ===== SMOOTHSORT ANIMATION (DIDACTIC) =====
 let smoothArr = [];
@@ -327,7 +323,6 @@ function smoothWait() {
 async function animateSmoothSort(arr, containerId) {
     const n = arr.length;
 
-    // Phase 1: Build heap
     updateCounter('smoothPhase', 'Fase 1: Construindo Heap');
     explain('smoothExplainText',
         'Fase 1: Vamos organizar o array como um "heap" (árvore onde o pai é sempre maior que os filhos). Isso nos ajuda a encontrar o maior elemento rapidamente.');
@@ -364,7 +359,6 @@ async function animateSmoothSort(arr, containerId) {
                 renderArray(containerId, arr, SMOOTH_MAX);
                 setBarClass(containerId, swap, 'heap-root');
 
-                // Keep sorted markers
                 for (let k = end + 1; k < n; k++) setBarClass(containerId, k, 'sorted');
                 await smoothWait();
 
@@ -414,7 +408,6 @@ async function animateSmoothSort(arr, containerId) {
         renderArray(containerId, arr, SMOOTH_MAX);
         setBarClass(containerId, end, 'sorted');
 
-        // Mark all sorted
         for (let k = end; k < n; k++) setBarClass(containerId, k, 'sorted');
 
         explain('smoothExplainText',

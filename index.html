@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickSort & SmoothSort — Análise Avançada</title>
+    <title>Bitonic Sort & SmoothSort — Análise Avançada</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
         </div>
         <div class="nav-links">
             <a href="#intro" class="nav-link">Intro</a>
-            <a href="#quick-history" class="nav-link">QuickSort</a>
+            <a href="#bitonic-history" class="nav-link">Bitonic Sort</a>
             <a href="#smooth-history" class="nav-link">SmoothSort</a>
             <a href="#comparativo" class="nav-link">Comparativo</a>
             <a href="#benchmark" class="nav-link">Benchmark</a>
@@ -40,7 +40,7 @@
         <div class="hero-content">
             <span class="cover-tag">Análise Avançada</span>
             <h1 class="cover-title">Algoritmos de<br><span class="gradient-text">Ordenação</span></h1>
-            <p class="cover-subtitle">QuickSort & SmoothSort — Análise comparativa com visualização interativa</p>
+            <p class="cover-subtitle">Bitonic Sort & SmoothSort — Análise comparativa com visualização interativa</p>
             <div class="cover-meta">
                 <span class="meta-item">📊 Complexidade</span>
                 <span class="meta-item">⚡ Performance</span>
@@ -70,12 +70,12 @@
                         <span class="card-icon">💡</span>
                         <span>Por que esses dois?</span>
                     </div>
-                    <p>O <strong>QuickSort</strong> é o algoritmo mais usado na prática por sua eficiência média. O <strong>SmoothSort</strong> é uma variante elegante do HeapSort que se adapta a dados parcialmente ordenados, atingindo O(n) no melhor caso.</p>
+                    <p>O <strong>Bitonic Sort</strong> é um algoritmo projetado para paralelismo massivo, ideal para GPUs e redes de ordenação. O <strong>SmoothSort</strong> é uma variante elegante do HeapSort que se adapta a dados parcialmente ordenados, atingindo O(n) no melhor caso.</p>
                 </div>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <span class="stat-number">O(n log n)</span>
-                        <span class="stat-label">Caso médio</span>
+                        <span class="stat-number">O(log²n)</span>
+                        <span class="stat-label">Paralelo (Bitonic)</span>
                     </div>
                     <div class="stat-card">
                         <span class="stat-number">O(1)</span>
@@ -86,44 +86,44 @@
         </div>
     </section>
 
-    <!-- QuickSort - História -->
-    <section class="section section-dark" id="quick-history">
+    <!-- Bitonic Sort - História -->
+    <section class="section section-dark" id="bitonic-history">
         <div class="container two-col">
             <div class="col-left fade-in">
                 <span class="section-tag quick-tag">História</span>
-                <h2>A origem do<br><span class="gradient-text-quick">QuickSort</span></h2>
-                <p class="description">O QuickSort foi desenvolvido em <strong>1959</strong> pelo cientista da computação britânico <strong>Tony Hoare</strong>, enquanto trabalhava em um projeto de tradução automática na Universidade de Moscou.</p>
-                <p class="description">Hoare precisava ordenar palavras para um dicionário russo-inglês e, ao buscar uma solução eficiente, concebeu a ideia de particionar os dados em torno de um pivô. O algoritmo foi publicado formalmente em 1961.</p>
-                <p class="description">Desde então, tornou-se o algoritmo de ordenação mais utilizado na prática, sendo a base da função <code>sort()</code> em linguagens como C, C++ e Java.</p>
+                <h2>A origem do<br><span class="gradient-text-quick">Bitonic Sort</span></h2>
+                <p class="description">O Bitonic Sort foi desenvolvido em <strong>1968</strong> pelo cientista da computação <strong>Ken Batcher</strong>, enquanto pesquisava redes de ordenação eficientes na Goodyear Aerospace Corporation.</p>
+                <p class="description">Batcher buscava um algoritmo que pudesse ser executado de forma massivamente paralela, onde múltiplas comparações acontecem simultaneamente. A ideia central é criar <strong>sequências bitônicas</strong> (que primeiro crescem e depois decrescem) e então mesclá-las recursivamente.</p>
+                <p class="description">O algoritmo se tornou fundamental na computação paralela e hoje é amplamente utilizado em <strong>GPUs</strong> (placas de vídeo), FPGAs e processamento de dados em larga escala.</p>
             </div>
             <div class="col-right fade-in">
                 <div class="timeline">
                     <div class="timeline-item">
-                        <span class="timeline-year">1959</span>
+                        <span class="timeline-year">1968</span>
                         <div class="timeline-content">
-                            <h4>Concepção</h4>
-                            <p>Tony Hoare desenvolve o algoritmo durante estágio na Universidade de Moscou, trabalhando com tradução automática.</p>
+                            <h4>Publicação original</h4>
+                            <p>Ken Batcher publica "Sorting Networks and their Applications" na AFIPS Spring Joint Computer Conference, apresentando o Bitonic Sort e o Odd-Even Merge Sort.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
-                        <span class="timeline-year">1961</span>
+                        <span class="timeline-year">1970s</span>
                         <div class="timeline-content">
-                            <h4>Publicação</h4>
-                            <p>O artigo "Algorithm 64: Quicksort" é publicado na Communications of the ACM, formalizando o algoritmo.</p>
+                            <h4>Redes de ordenação</h4>
+                            <p>O algoritmo se torna referência no estudo de redes de ordenação (sorting networks), onde comparadores operam em paralelo em hardware dedicado.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
-                        <span class="timeline-year">1962</span>
+                        <span class="timeline-year">2000s</span>
                         <div class="timeline-content">
-                            <h4>Análise formal</h4>
-                            <p>Hoare publica "Quicksort" no Computer Journal com análise completa de complexidade e provas de correção.</p>
+                            <h4>Era das GPUs</h4>
+                            <p>Com o surgimento do GPGPU (General Purpose GPU), o Bitonic Sort ganha nova vida como um dos algoritmos mais eficientes para ordenação em placas de vídeo (CUDA, OpenCL).</p>
                         </div>
                     </div>
                     <div class="timeline-item">
-                        <span class="timeline-year">1970+</span>
+                        <span class="timeline-year">2010+</span>
                         <div class="timeline-content">
-                            <h4>Otimizações</h4>
-                            <p>Sedgewick, Bentley e outros propõem melhorias: mediana de três, Introsort, e versões híbridas usadas até hoje.</p>
+                            <h4>Aplicações modernas</h4>
+                            <p>Utilizado em bancos de dados paralelos, processamento de imagens, simulações físicas e machine learning para ordenação de tensores em GPU.</p>
                         </div>
                     </div>
                 </div>
@@ -132,84 +132,68 @@
                         <span class="card-icon">🏆</span>
                         <span>Legado</span>
                     </div>
-                    <p>Tony Hoare recebeu o <strong>Prêmio Turing</strong> em 1980 por suas contribuições à ciência da computação, incluindo o QuickSort e a lógica de Hoare para verificação de programas.</p>
+                    <p>Ken Batcher é considerado o pai das redes de ordenação modernas. Seu trabalho influenciou diretamente o design de hardware para processamento paralelo e é citado em milhares de artigos sobre computação de alto desempenho.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- QuickSort - Conceito -->
-    <section class="section" id="quicksort">
+    <!-- Bitonic Sort - Conceito -->
+    <section class="section" id="bitonicsort">
         <div class="container two-col">
             <div class="col-left fade-in">
-                <span class="section-tag quick-tag">QuickSort</span>
-                <h2>Como funciona o<br><span class="gradient-text-quick">QuickSort?</span></h2>
-                <p class="description">Utiliza a estratégia <strong>dividir para conquistar</strong>: escolhe um pivô, particiona o array em elementos menores e maiores que o pivô, e aplica recursivamente o mesmo processo.</p>
+                <span class="section-tag quick-tag">Bitonic Sort</span>
+                <h2>Como funciona o<br><span class="gradient-text-quick">Bitonic Sort?</span></h2>
+                <p class="description">Baseia-se no conceito de <strong>sequência bitônica</strong>: uma sequência que primeiro cresce e depois decresce (ou vice-versa). O algoritmo cria sequências bitônicas e as mescla recursivamente até obter a ordenação completa.</p>
                 <div class="steps-list">
-                    <div class="step"><span class="step-num">1</span> Escolhe um elemento como pivô</div>
-                    <div class="step"><span class="step-num">2</span> Particiona: menores à esquerda, maiores à direita</div>
-                    <div class="step"><span class="step-num">3</span> Aplica recursivamente nas sub-partições</div>
+                    <div class="step"><span class="step-num">1</span> Divide o array em pares e cria mini-sequências bitônicas</div>
+                    <div class="step"><span class="step-num">2</span> Mescla sequências bitônicas adjacentes em sequências maiores</div>
+                    <div class="step"><span class="step-num">3</span> Repete até que todo o array seja uma sequência ordenada</div>
                 </div>
                 <div class="complexity-table">
                     <div class="complexity-row">
-                        <span class="complexity-label">Melhor caso:</span>
-                        <span class="complexity-value good">O(n log n)</span>
+                        <span class="complexity-label">Sequencial:</span>
+                        <span class="complexity-value medium">O(n log²n)</span>
                     </div>
                     <div class="complexity-row">
-                        <span class="complexity-label">Caso médio:</span>
-                        <span class="complexity-value good">O(n log n)</span>
+                        <span class="complexity-label">Paralelo:</span>
+                        <span class="complexity-value good">O(log²n)</span>
                     </div>
                     <div class="complexity-row">
-                        <span class="complexity-label">Pior caso:</span>
-                        <span class="complexity-value bad">O(n²)</span>
+                        <span class="complexity-label">Comparações:</span>
+                        <span class="complexity-value medium">O(n log²n)</span>
                     </div>
                     <div class="complexity-row">
                         <span class="complexity-label">Espaço:</span>
-                        <span class="complexity-value medium">O(log n)</span>
+                        <span class="complexity-value good">O(1) in-place</span>
                     </div>
-                </div>
-            </div>
-            <div class="col-right fade-in">
-                <div class="code-block">
-                    <div class="code-header">
-                        <span class="code-dot red"></span>
-                        <span class="code-dot yellow"></span>
-                        <span class="code-dot green"></span>
-                        <span class="code-title">quicksort.py</span>
-                    </div>
-                    <pre><code><span class="keyword">def</span> <span class="func">quicksort</span>(arr, low, high):
-    <span class="keyword">if</span> low &lt; high:
-        pi = <span class="func">partition</span>(arr, low, high)
-        <span class="func">quicksort</span>(arr, low, pi - 1)
-        <span class="func">quicksort</span>(arr, pi + 1, high)
-
-<span class="keyword">def</span> <span class="func">partition</span>(arr, low, high):
-    pivot = arr[high]  <span class="comment"># pivô</span>
-    i = low - 1
-    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="func">range</span>(low, high):
-        <span class="keyword">if</span> arr[j] &lt;= pivot:
-            i += 1
-            arr[i], arr[j] = arr[j], arr[i]
-    arr[i+1], arr[high] = arr[high], arr[i+1]
-    <span class="keyword">return</span> i + 1</code></pre>
                 </div>
                 <div class="info-card small-card">
                     <div class="card-header">
-                        <span class="card-icon">⚠️</span>
-                        <span>Atenção</span>
+                        <span class="card-icon">⚡</span>
+                        <span>Paralelismo</span>
                     </div>
-                    <p>O pior caso O(n²) ocorre quando o pivô é sempre o menor ou maior elemento. Soluções: pivô aleatório ou mediana de três.</p>
+                    <p>Com n processadores, ordena em tempo O(log²n) — muito mais rápido que O(n log n) sequencial. Ideal para GPUs com milhares de núcleos.</p>
+                </div>
+            </div>
+            <div class="col-right fade-in">
+                <div class="info-card small-card">
+                    <div class="card-header">
+                        <span class="card-icon">⚠️</span>
+                        <span>Requisito</span>
+                    </div>
+                    <p>O Bitonic Sort exige que o tamanho do array seja uma potência de 2 (2, 4, 8, 16...). Arrays menores são preenchidos com valores sentinela (padding).</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- QuickSort - Animação -->
-    <section class="section section-dark" id="quick-demo">
+    <!-- Bitonic Sort - Animação -->
+    <section class="section section-dark" id="bitonic-demo">
         <div class="container center-content fade-in">
-            <span class="section-tag quick-tag">QuickSort</span>
+            <span class="section-tag quick-tag">Bitonic Sort</span>
             <h2>Visualização <span class="gradient-text-quick">Passo a Passo</span></h2>
-            <p class="description center-text">Acompanhe cada etapa do algoritmo com explicações em linguagem simples</p>
+            <p class="description center-text">Acompanhe como as sequências bitônicas são criadas e mescladas</p>
 
             <!-- Explicação didática antes da animação -->
             <div class="didactic-box">
@@ -220,50 +204,50 @@
                 <div class="didactic-steps">
                     <div class="didactic-step">
                         <span class="legend-color pivot-color"></span>
-                        <span><strong>Barra roxa</strong> = Pivô (o elemento escolhido como referência para dividir o grupo)</span>
+                        <span><strong>Barra roxa</strong> = Par sendo comparado (elementos distantes que são confrontados)</span>
                     </div>
                     <div class="didactic-step">
                         <span class="legend-color comparing-color"></span>
-                        <span><strong>Barra amarela</strong> = Elemento sendo comparado com o pivô neste momento</span>
+                        <span><strong>Barra amarela</strong> = Troca acontecendo (elementos fora de ordem sendo invertidos)</span>
                     </div>
                     <div class="didactic-step">
                         <span class="legend-color sorted-color"></span>
-                        <span><strong>Barra verde</strong> = Elemento já na posição correta (não muda mais)</span>
+                        <span><strong>Barra verde</strong> = Seção já ordenada corretamente</span>
                     </div>
                 </div>
                 <div class="didactic-note">
-                    <strong>Analogia:</strong> Imagine organizar cartas de baralho. Você escolhe uma carta (pivô), coloca todas as menores à esquerda e as maiores à direita. Depois repete o processo em cada grupo menor, até tudo estar em ordem.
+                    <strong>Analogia:</strong> Imagine dois times de corrida — um corre ladeira acima e outro ladeira abaixo. Quando se encontram, formam um "V" (sequência bitônica). O algoritmo compara as pontas opostas desse "V" e troca quem está fora de ordem, até o "V" virar uma rampa reta (ordenada).
                 </div>
             </div>
 
             <div class="animation-container">
                 <div class="animation-controls">
-                    <button id="quickStart" class="anim-btn primary">▶ Iniciar Automático</button>
-                    <button id="quickStep" class="anim-btn primary-outline">⏭ Passo a Passo</button>
-                    <button id="quickReset" class="anim-btn secondary">↺ Novo Array</button>
+                    <button id="bitonicStart" class="anim-btn primary">▶ Iniciar Automático</button>
+                    <button id="bitonicStep" class="anim-btn primary-outline">⏭ Passo a Passo</button>
+                    <button id="bitonicReset" class="anim-btn secondary">↺ Novo Array</button>
                     <div class="speed-control">
                         <label>Velocidade:</label>
-                        <input type="range" id="quickSpeed" min="1" max="5" value="2">
-                        <span class="speed-label" id="quickSpeedLabel">Lento</span>
+                        <input type="range" id="bitonicSpeed" min="1" max="5" value="2">
+                        <span class="speed-label" id="bitonicSpeedLabel">Lento</span>
                     </div>
                 </div>
-                <div id="quickArray" class="array-container"></div>
+                <div id="bitonicArray" class="array-container"></div>
                 <div class="legend">
-                    <span class="legend-item"><span class="legend-color pivot-color"></span> Pivô</span>
-                    <span class="legend-item"><span class="legend-color comparing-color"></span> Comparando</span>
-                    <span class="legend-item"><span class="legend-color sorted-color"></span> Posição final</span>
+                    <span class="legend-item"><span class="legend-color pivot-color"></span> Comparando par</span>
+                    <span class="legend-item"><span class="legend-color comparing-color"></span> Trocando</span>
+                    <span class="legend-item"><span class="legend-color sorted-color"></span> Ordenado</span>
                 </div>
 
                 <!-- Painel de explicação em tempo real -->
-                <div id="quickExplain" class="explain-panel">
+                <div id="bitonicExplain" class="explain-panel">
                     <div class="explain-header">💬 O que está acontecendo:</div>
-                    <p id="quickExplainText">Clique em "Iniciar" para ver o algoritmo funcionando, ou use "Passo a Passo" para controlar manualmente.</p>
+                    <p id="bitonicExplainText">Clique em "Iniciar" para ver o algoritmo funcionando, ou use "Passo a Passo" para controlar manualmente.</p>
                 </div>
 
-                <div id="quickStatus" class="status-bar">
-                    <span id="quickComparisons">Comparações: 0</span>
-                    <span id="quickSwaps">Trocas: 0</span>
-                    <span id="quickPhase">Fase: Aguardando</span>
+                <div id="bitonicStatus" class="status-bar">
+                    <span id="bitonicComparisons">Comparações: 0</span>
+                    <span id="bitonicSwaps">Trocas: 0</span>
+                    <span id="bitonicPhase">Fase: Aguardando</span>
                 </div>
             </div>
         </div>
@@ -444,32 +428,32 @@
     <section class="section" id="comparativo">
         <div class="container center-content fade-in">
             <span class="section-tag">Comparativo</span>
-            <h2>QuickSort <span class="vs">vs</span> SmoothSort</h2>
+            <h2>Bitonic Sort <span class="vs">vs</span> SmoothSort</h2>
             <div class="comparison-table">
                 <div class="comparison-header">
                     <span>Critério</span>
-                    <span class="quick-color">QuickSort</span>
+                    <span class="quick-color">Bitonic Sort</span>
                     <span class="smooth-color">SmoothSort</span>
                 </div>
                 <div class="comparison-row">
+                    <span>Complexidade sequencial</span>
+                    <span class="medium">O(n log²n)</span>
+                    <span class="good highlight">O(n log n) ✓</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Complexidade paralela</span>
+                    <span class="good highlight">O(log²n) ✓</span>
+                    <span class="bad">Não paralelizável</span>
+                </div>
+                <div class="comparison-row">
                     <span>Melhor caso</span>
-                    <span class="good">O(n log n)</span>
+                    <span class="medium">O(n log²n)</span>
                     <span class="good highlight">O(n) ✓</span>
                 </div>
                 <div class="comparison-row">
-                    <span>Pior caso</span>
-                    <span class="bad">O(n²)</span>
-                    <span class="good highlight">O(n log n) ✓</span>
-                </div>
-                <div class="comparison-row">
-                    <span>Caso médio</span>
-                    <span class="good highlight">O(n log n) ✓</span>
-                    <span class="good">O(n log n)</span>
-                </div>
-                <div class="comparison-row">
                     <span>Espaço</span>
-                    <span class="medium">O(log n)</span>
-                    <span class="good highlight">O(1) ✓</span>
+                    <span class="good">O(1) ✓</span>
+                    <span class="good">O(1) ✓</span>
                 </div>
                 <div class="comparison-row">
                     <span>Adaptativo</span>
@@ -477,9 +461,9 @@
                     <span class="good highlight">Sim ✓</span>
                 </div>
                 <div class="comparison-row">
-                    <span>In-place</span>
-                    <span class="good">Sim ✓</span>
-                    <span class="good">Sim ✓</span>
+                    <span>Paralelizável</span>
+                    <span class="good highlight">Sim (massivo) ✓</span>
+                    <span class="bad">Não</span>
                 </div>
                 <div class="comparison-row">
                     <span>Estabilidade</span>
@@ -487,14 +471,14 @@
                     <span class="bad">Instável</span>
                 </div>
                 <div class="comparison-row">
-                    <span>Cache-friendly</span>
+                    <span>Ideal para GPU</span>
                     <span class="good highlight">Sim ✓</span>
-                    <span class="medium">Parcial</span>
+                    <span class="bad">Não</span>
                 </div>
                 <div class="comparison-row">
-                    <span>Complexidade de impl.</span>
-                    <span class="good highlight">Simples ✓</span>
-                    <span class="bad">Complexa</span>
+                    <span>Requer potência de 2</span>
+                    <span class="bad">Sim</span>
+                    <span class="good highlight">Não ✓</span>
                 </div>
             </div>
         </div>
@@ -508,84 +492,191 @@
             <p class="description center-text">Comparação de desempenho em diferentes cenários de entrada</p>
             <div class="benchmark-container">
                 <div class="benchmark-card">
-                    <h3>Array Aleatório (n = 10.000)</h3>
+                    <h3>Array Aleatório — Sequencial (n = 10.000)</h3>
                     <div class="bar-chart">
                         <div class="bar-row">
-                            <span class="bar-label">QuickSort</span>
-                            <div class="bar-track"><div class="bar-fill quick-fill" data-width="55"><span>~0.8ms</span></div></div>
+                            <span class="bar-label">Bitonic Sort</span>
+                            <div class="bar-track"><div class="bar-fill quick-fill" data-width="80"><span>~1.5ms</span></div></div>
                         </div>
                         <div class="bar-row">
                             <span class="bar-label">SmoothSort</span>
-                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="75"><span>~1.1ms</span></div></div>
+                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="60"><span>~1.1ms</span></div></div>
                         </div>
                     </div>
-                    <p class="benchmark-note">QuickSort é ~30% mais rápido em dados aleatórios devido à melhor localidade de cache</p>
+                    <p class="benchmark-note">Sequencialmente, SmoothSort é mais rápido (O(n log n) vs O(n log²n))</p>
                 </div>
                 <div class="benchmark-card">
-                    <h3>Array Quase Ordenado (n = 10.000)</h3>
+                    <h3>Array Aleatório — Paralelo em GPU (n = 10.000)</h3>
                     <div class="bar-chart">
                         <div class="bar-row">
-                            <span class="bar-label">QuickSort</span>
-                            <div class="bar-track"><div class="bar-fill quick-fill" data-width="60"><span>~0.7ms</span></div></div>
+                            <span class="bar-label">Bitonic Sort</span>
+                            <div class="bar-track"><div class="bar-fill quick-fill" data-width="15"><span>~0.02ms</span></div></div>
                         </div>
                         <div class="bar-row">
                             <span class="bar-label">SmoothSort</span>
-                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="25"><span>~0.3ms</span></div></div>
+                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="85"><span>~1.1ms</span></div></div>
                         </div>
                     </div>
-                    <p class="benchmark-note">SmoothSort brilha aqui — sua natureza adaptativa reduz o trabalho para quase O(n)</p>
+                    <p class="benchmark-note">Em GPU com milhares de núcleos, Bitonic Sort é ordens de magnitude mais rápido</p>
                 </div>
                 <div class="benchmark-card">
-                    <h3>Array Inversamente Ordenado (n = 10.000)</h3>
+                    <h3>Array Quase Ordenado — Sequencial (n = 10.000)</h3>
                     <div class="bar-chart">
                         <div class="bar-row">
-                            <span class="bar-label">QuickSort</span>
-                            <div class="bar-track"><div class="bar-fill quick-fill worst" data-width="100"><span>~50ms (n²)</span></div></div>
+                            <span class="bar-label">Bitonic Sort</span>
+                            <div class="bar-track"><div class="bar-fill quick-fill" data-width="80"><span>~1.5ms</span></div></div>
                         </div>
                         <div class="bar-row">
                             <span class="bar-label">SmoothSort</span>
-                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="75"><span>~1.1ms</span></div></div>
+                            <div class="bar-track"><div class="bar-fill smooth-fill" data-width="20"><span>~0.3ms</span></div></div>
                         </div>
                     </div>
-                    <p class="benchmark-note">Pior caso do QuickSort (pivô fixo no último elemento). SmoothSort mantém O(n log n)</p>
+                    <p class="benchmark-note">SmoothSort se adapta e reduz trabalho. Bitonic Sort faz o mesmo trabalho independente da entrada</p>
                 </div>
             </div>
-            <p class="benchmark-disclaimer">* Barras representam tempo relativo de execução — quanto maior, mais lento. Valores aproximados para n = 10.000 elementos.</p>
+            <p class="benchmark-disclaimer">* Barras representam tempo relativo de execução — quanto maior, mais lento. Bitonic Sort sempre faz O(n log²n) comparações, mas em paralelo cada passo leva O(1).</p>
         </div>
     </section>
 
-    <!-- Conclusão -->
-    <section class="section" id="conclusao">
+    <!-- Aplicações no Cotidiano -->
+    <section class="section" id="aplicacoes">
         <div class="container center-content fade-in">
-            <span class="cover-tag">Conclusão</span>
-            <h2 class="cover-title">Quando usar<br><span class="gradient-text">cada um?</span></h2>
-            <div class="conclusion-cards">
-                <div class="conclusion-card quick-card">
-                    <h3>⚡ QuickSort</h3>
-                    <ul>
-                        <li>Dados completamente aleatórios</li>
-                        <li>Quando performance média importa mais</li>
-                        <li>Implementação simples é prioridade</li>
-                        <li>Uso geral (padrão em muitas linguagens)</li>
-                    </ul>
+            <span class="section-tag">Aplicações Reais</span>
+            <h2>Onde são usados no <span class="gradient-text">cotidiano?</span></h2>
+            <p class="description center-text">Esses algoritmos estão presentes em tecnologias que usamos todos os dias, mesmo sem perceber</p>
+
+            <div class="apps-grid">
+                <!-- Bitonic Sort -->
+                <div class="app-column">
+                    <h3 class="app-column-title quick-color">🔀 Bitonic Sort</h3>
+
+                    <div class="app-card">
+                        <span class="app-icon">🎮</span>
+                        <div class="app-info">
+                            <h4>Jogos e Gráficos 3D</h4>
+                            <p>Usado nas GPUs para ordenar partículas, transparências e objetos por profundidade em tempo real. Jogos como Fortnite e GTA usam esse tipo de ordenação na placa de vídeo.</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card">
+                        <span class="app-icon">🤖</span>
+                        <div class="app-info">
+                            <h4>Inteligência Artificial</h4>
+                            <p>No treinamento de modelos de IA (deep learning), o Bitonic Sort ordena tensores dentro da GPU para operações como Top-K selection e beam search em tradutores automáticos.</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card">
+                        <span class="app-icon">📱</span>
+                        <div class="app-info">
+                            <h4>Filtros de Redes Sociais</h4>
+                            <p>O feed do Instagram e TikTok usa GPUs para ordenar milhões de posts por relevância em milissegundos. O Bitonic Sort é ideal por sua execução massivamente paralela.</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card">
+                        <span class="app-icon">🔬</span>
+                        <div class="app-info">
+                            <h4>Simulações Científicas</h4>
+                            <p>Simulações de clima, física de fluidos e dinâmica molecular usam GPUs para ordenar partículas por posição espacial — essencial para calcular interações entre vizinhos.</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card">
+                        <span class="app-icon">💰</span>
+                        <div class="app-info">
+                            <h4>Mercado Financeiro</h4>
+                            <p>Bolsas de valores usam FPGAs com redes de ordenação (Bitonic) para processar ordens de compra/venda em nanossegundos — trading de alta frequência.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="conclusion-card smooth-card">
-                    <h3>🌊 SmoothSort</h3>
-                    <ul>
-                        <li>Dados parcialmente ordenados</li>
-                        <li>Garantia de O(n log n) é necessária</li>
-                        <li>Memória extra não é aceitável</li>
-                        <li>Sistemas embarcados / tempo real</li>
-                    </ul>
+
+                <!-- SmoothSort -->
+                <div class="app-column">
+                    <h3 class="app-column-title smooth-color">🌊 SmoothSort</h3>
+
+                    <div class="app-card smooth-app">
+                        <span class="app-icon">🏥</span>
+                        <div class="app-info">
+                            <h4>Sistemas Hospitalares</h4>
+                            <p>Monitores cardíacos e equipamentos de UTI precisam ordenar sinais vitais em tempo real com garantia de resposta. O SmoothSort garante O(n log n) sem picos imprevisíveis.</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card smooth-app">
+                        <span class="app-icon">✈️</span>
+                        <div class="app-info">
+                            <h4>Controle de Tráfego Aéreo</h4>
+                            <p>Sistemas de radar ordenam aeronaves por altitude e distância. Os dados já vêm quase ordenados entre atualizações — perfeito para o SmoothSort que se adapta e roda em O(n).</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card smooth-app">
+                        <span class="app-icon">🚗</span>
+                        <div class="app-info">
+                            <h4>Sistemas Embarcados (Carros)</h4>
+                            <p>Sensores de carros autônomos geram dados quase ordenados (posições de objetos mudam pouco entre frames). O SmoothSort ordena com eficiência usando memória mínima (O(1)).</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card smooth-app">
+                        <span class="app-icon">📊</span>
+                        <div class="app-info">
+                            <h4>Planilhas e Bancos de Dados</h4>
+                            <p>Quando você re-ordena uma coluna no Excel ou em um banco de dados, os dados geralmente já estão parcialmente ordenados. Algoritmos adaptativos como o SmoothSort aproveitam isso.</p>
+                        </div>
+                    </div>
+
+                    <div class="app-card smooth-app">
+                        <span class="app-icon">📧</span>
+                        <div class="app-info">
+                            <h4>E-mails e Notificações</h4>
+                            <p>Seu app de e-mail ordena mensagens por data. Quando chega um novo e-mail, a lista já está quase ordenada — o SmoothSort reorganiza em tempo quase linear O(n).</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <p class="final-note">O QuickSort domina na prática pela simplicidade e cache-friendliness. O SmoothSort é a escolha teórica superior quando adaptabilidade e garantias de pior caso são essenciais.</p>
+        </div>
+    </section>
+
+    <!-- Final - Créditos com Robô -->
+    <section class="section section-dark" id="creditos">
+        <div class="container center-content fade-in">
+            <div class="robot-container">
+                <img src="Robo.png" alt="Robô mascote" class="robot-img" id="robotImg">
+                <div class="robot-glow"></div>
+            </div>
+            <div class="credits-info">
+                <h2 class="credits-title">Obrigado por <span class="gradient-text">assistir!</span></h2>
+                <div class="credits-grid">
+                    <div class="credit-item">
+                        <span class="credit-label">Disciplina</span>
+                        <span class="credit-value">Estrutura de Dados</span>
+                    </div>
+                    <div class="credit-item">
+                        <span class="credit-label">Professor</span>
+                        <span class="credit-value">Givanaldo</span>
+                    </div>
+                    <div class="credit-item">
+                        <span class="credit-label">Aluno</span>
+                        <span class="credit-value">Jadson Alves</span>
+                    </div>
+                    <div class="credit-item">
+                        <span class="credit-label">Instituição</span>
+                        <span class="credit-value">IFRN</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>Análise Avançada de Algoritmos de Ordenação — QuickSort & SmoothSort</p>
+        <div class="footer-logo">
+            <img src="IFRNLOGOSPARACAMPUSHORZ_VERT.4548350b756d404498b6.png" alt="Logo IFRN" class="ifrn-logo">
+        </div>
+        <p>Análise Avançada de Algoritmos de Ordenação — Bitonic Sort & SmoothSort</p>
+        <p class="footer-sub">Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte</p>
     </footer>
 
     <script src="script.js"></script>
